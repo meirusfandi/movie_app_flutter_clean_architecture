@@ -4,6 +4,7 @@ import 'package:movie_app/components/movie_item.dart';
 import 'package:movie_app/core/resources/injector/injection_container.dart';
 import 'package:movie_app/features/list_movie/domain/entity/list_movie_entity.dart';
 import 'package:movie_app/features/list_movie/presentation/bloc/list_movie_bloc.dart';
+import 'package:movie_app/utils/utils.dart';
 
 class ListPage extends StatefulWidget {
 
@@ -30,8 +31,23 @@ class _ListPageState extends State<ListPage> {
               title: Text("List Movie"),
             ),
             body: ((state.listMovieEntity?.results.isEmpty ?? false) || state.isloading)
-              ? Container(
-                  child: Text("Tidak ada data"),
+              ? (state.isloading)
+                ? ListView.builder(
+                    itemCount: 8,
+                    itemBuilder: (context, int index) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        height: 100,
+                        width: double.infinity,
+                        decoration: BoxDecoration(color: Color(0xFFEAEAEA), borderRadius: BorderRadius.circular(6)),
+                        padding: const EdgeInsets.all(6),
+                      ).loadShimmer();
+                    },
+                  )
+                : Center(
+                  child: Container(
+                    child: Text("Tidak ada data"),
+                  ),
                 )
               : Container(
                 child: ListView.builder(
